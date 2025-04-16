@@ -160,6 +160,9 @@ app.get("/users/:userId/posts", (req, res) => {
   res.json(userPosts);
 });
 
+
+
+
 //   4. Tạo bài post mới cho user có id được truyền qua params.
 //   POST
 app.post("/users/:userId/posts", (req, res) => {
@@ -223,19 +226,73 @@ app.post("/users/:userId/posts", (req, res) => {
   // DELETE 
   app.delete("/posts/:postId", (req, res) => {
     const { postId } = req.params;
-    const { userId } = req.body; 
-
+    const { userId } = req.body;
+    console.log("Delete request for postId:", postId, "by userId:", userId);
+  
     const postIndex = posts.findIndex((p) => p.id === postId);
     if (postIndex === -1) {
       return res.status(404).json({ message: "Post not found" });
     }
-
-    // only the user who created the post can delete it
+  
+    console.log("Found post with userId:", posts[postIndex].userId);
     if (posts[postIndex].userId !== userId) {
       return res.status(403).json({ message: "You are not authorized to delete this post" });
     }
-
+  
     posts.splice(postIndex, 1);
     res.json({ message: "Post deleted successfully" });
   });
 
+
+//7 Viết API tìm kiếm các bài post với content tương ứng được gửi lên từ query params.
+// GET
+app.get("/posts/search", (req, res) => {
+  const {content}= req.query;
+  const filteredPosts = posts.filter((post) => post.content.includes(content));
+  res.json(filteredPosts);
+  
+  if (filteredPosts.length === 0 || !content) {
+    return res.status(404).json({ message: "No posts found" });
+  }
+  res.json(filteredPosts);
+  return res.status(200).json({
+    message: "Posts found successfully",
+    data: filteredPosts,
+  });
+});
+//8 Viết API lấy tất cả các bài post với isPublic là true, false thì sẽ không trả về.
+// GET
+
+// http://localhost:8080/posts?isPublic=false
+// http://localhost:8080/posts?isPublic=false
+
+
+// Lấy tất cả các posts tồn tại trong hệ thống
+// GET /posts
+app.get("/posts", (req, res) => {
+  // Nếu có query parameter isPublic thì lọc, nếu không trả về tất cả bài post
+  const { isPublic } = req.query;
+
+  // Nếu query parameter isPublic được cung cấp, lọc theo nó
+  if (isPublic !== undefined) {
+    // Chuyển isPublic từ chuỗi sang boolean
+    const filteredPosts = posts.filter(
+      (post) => post.isPublic === (isPublic === 'true')
+    );
+
+    if (filteredPosts.length === 0) {
+      return res.status(404).json({ message: "No posts found" });
+    }
+
+    return res.status(200).json({
+      message: "Posts found successfully",
+      data: filteredPosts,
+    });
+  }
+
+  // Nếu không có query parameter, trả về tất cả các bài post
+  res.status(200).json({
+    message: "All posts retrieved successfully",
+    data: posts,
+  });
+});
