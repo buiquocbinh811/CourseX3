@@ -1,0 +1,203 @@
+{
+  "users": [
+    {
+      "id": "US001",
+      "userName": "MindX"
+    },
+    {
+      "id": "US002",
+      "useName": "Nobi Nobita"
+    },
+    {
+      "id": "US003",
+      "useName": "Ronaldo"
+    },
+    {
+      "id": "US004",
+      "useName": "Messi"
+    },
+    {
+      "id": "US005",
+      "userName": "Nguyen Van A"
+    },
+    {
+      "id": "US006",
+      "userName": "Nguyen Van B"
+    },
+    {
+      "id": "US007",
+      "userName": "Nguyen Van A"
+    },
+    {
+      "id": "US008",
+      "userName": "Nguyen Van A"
+    },
+    {
+      "id": "US009",
+      "userName": "Nguyen Van A"
+    },
+    {
+      "id": "US0010",
+      "userName": "Nguyen Van A"
+    },
+    {
+      "id": "US0011",
+      "userName": "Nguyen Van A"
+    }
+  ],
+  "posts": [
+    {
+      "id": "PS001",
+      "content": "Nội dung học về JSON Server!",
+      "userId": "US001",
+      "views": 100
+    },
+    {
+      "id": "PS002",
+      "content": "Learning Frontend courses",
+      "userId": "US004",
+      "views": 200
+    },
+    {
+      "id": "PS003",
+      "content": "Learning Java",
+      "userId": "US003",
+      "views": 120
+    },
+    {
+      "views": 36,
+      "userId": "US003",
+      "id": "PS004",
+      "content": "Bui QUoc Binhdz"
+    },
+    {
+      "id": "PS005",
+      "content": "Learning Agile/Scrum",
+      "userId": "US002",
+      "views": 50
+    },
+    {
+      "views": 101,
+      "content": "Learning JWT 20 April 2025",
+      "userId": "US001",
+      "id": "PS006"
+    },
+    {
+      "id": "PS007",
+      "content": "Learning NodeJS",
+      "userId": "US002",
+      "views": 115
+    },
+    {
+      "id": "PS00NaN",
+      "content": "Cr7 > M10!",
+      "userId": "US001",
+      "views": 1
+    },
+    {
+      "id": "PS009",
+      "content": "Cr7 > M10!",
+      "userId": "US001",
+      "views": 1
+    },
+    {
+      "id": "PS0010",
+      "content": "Cr7 = M10!",
+      "userId": "US001",
+      "views": 1000
+    }
+  ],
+  "comments": [
+    {
+      "id": "CMT001",
+      "postId": "PS001",
+      "content": "Bài học này rất ý nghĩa! Cảm ơn MindX!",
+      "userId": "US002"
+    },
+    {
+      "id": "CMT001",
+      "postId": "PS002",
+      "content": "Bài học này rất ý nghĩa!",
+      "userId": "US004"
+    },
+    {
+      "id": "CMT003",
+      "content": "Chả ra làm sao",
+      "userId": "US002",
+      "postId": "PS001"
+    },
+    {
+      "id": "CMT004",
+      "content": "Chả ra làm sao",
+      "userId": "US002",
+      "postId": "PS001"
+    },
+    {
+      "userId": "US0012",
+      "postId": "PS001",
+      "content": "Chả ra làm sao ngu",
+      "id": "CMT005"
+    },
+    {
+      "id": "CMT006",
+      "postId": "PS003",
+      "content": "Học Java cực kỳ bổ ích!",
+      "userId": "US003"
+    },
+    {
+      "id": "CMT007",
+      "postId": "PS003",
+      "content": "Cố gắng lên nào anh em!",
+      "userId": "US004"
+    },
+    {
+      "id": "CMT008",
+      "postId": "PS004",
+      "content": "Bài này dễ hiểu quá trời!",
+      "userId": "US002"
+    },
+    {
+      "id": "CMT009",
+      "postId": "PS005",
+      "content": "Agile là xu hướng mới đó nha!",
+      "userId": "US006"
+    },
+    {
+      "id": "CMT010",
+      "postId": "PS005",
+      "content": "Scrum thì cần teamwork tốt.",
+      "userId": "US007"
+    },
+    {
+      "id": "CMT011",
+      "postId": "PS006",
+      "content": "JWT giúp bảo mật API tốt hơn.",
+      "userId": "US001"
+    },
+    {
+      "id": "CMT012",
+      "postId": "PS006",
+      "content": "Cố học JWT sớm đi còn làm fullstack!",
+      "userId": "US002"
+    },
+    {
+      "id": "CMT013",
+      "postId": "PS007",
+      "content": "NodeJS là tương lai server-side!",
+      "userId": "US005"
+    },
+    {
+      "id": "CMT014",
+      "postId": "PS007",
+      "content": "Backend NodeJS rất mạnh!",
+      "userId": "US006"
+    },
+    {
+      "id": "CMT015",
+      "postId": "PS0010",
+      "content": "Cr7 và M10 đều là huyền thoại!",
+      "userId": "US008"
+    }
+    
+  ]
+}
