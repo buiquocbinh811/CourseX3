@@ -289,10 +289,86 @@ app.get('/comments/:postId', async(req, res)=>{
   }
 })
 // Bài 7: Viết API lấy tất cả các bài post, 3 comment đầu 
-// (dựa theo index) của tất cả user .
+// (dựa theo index) của tất cả user cos tham khao chat gpt 
+//dung get fileter
+app.get('/posts-with-comments', async(req, res)=>{
+ try {
+   //B1clien gui y cau fetch api post
+   const postJson = await fetch('http://localhost:8081/posts');
+   const postData = await postJson.json();
+   //B2 fetcomment
+   const commentJson = await fetch('http://localhost:8081/comments');
+   const commentData = await commentJson.json();
+   // lay ra 3 comment dau cho moi post
+   const postsWithComments = postData.map(post => {
+     const postComments = commentData.filter(comment => comment.postId === post.id);
+ 
+     //only 3 first comments
+     const firstThreeComments = postComments.slice(0,3);
+     return {
+       ...post,
+       comments: firstThreeComments, //them 3 comendau
+     }
+   })
+
+   res.status(200).json( {
+    message: 'Get posts with first 3 comments successfully',
+    data: postsWithComments
+   })
+ } catch (error) {
+  console.log('[ERROR]: ', error);
+    res.status(400).json({
+      data: null,
+      success: false,
+      error: error?.message,
+    })
+ }
+})
 
 // Bài 8: Viết API lấy một bài post và tất cả comment 
-// của bài post đó thông qua postId
+// của bài post đó thông qua postId 
+// dùng get
+app.get('/posts/:postId', async(req, res)=>{
+  const {postId} = req.params;
+  try {
+    if(!postId){
+      throw new Error('Post id is required')
+    }
+  //lay data post va comment 
+  const postsJson = await fetch('http://localhost:8081/posts');
+  const postsData = await postsJson.json();
+
+  const commentsJson = await fetch('http://localhost:8081/comments');
+  const commentsData = await commentsJson.json();
+
+  //tim post theo post id
+  const post  = postsData.find(post => post.id === postId);
+  if(!post){
+    throw new Error('Post id not found')
+  }
+
+  // loc comment theo post
+  const postComments = commentsData.filter(comment => comment.postId ===postId );
+  //post ko ton tai
+  // if(commentsData.length ===0){
+  //   throw new Error('Post id not found')
+  // }
+  res.status(200).json({
+    message: 'Get post and comments are successfully',
+    data: {
+        ...post,
+        comments: postComments
+      }
+  })
+  } catch (error) {
+    console.log('[ERROR]: ', error);
+    res.status(400).json({
+      data: null,
+      success: false,
+      error: error?.message,
+    })
+  }
+})
 
 // Route kiểm tra server sống hay chết
 app.get('/health-check', (req, res) => {
