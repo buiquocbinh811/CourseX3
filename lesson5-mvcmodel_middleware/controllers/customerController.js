@@ -1,13 +1,19 @@
-import customer from "../models/customer.js"
-import order from "../models/order.js"
+import CustomerModel from "../models/customer.js"
+import OrderModel from "../models/order.js"
+import ProductModel from "../models/product.js"
 import mongoose from "mongoose"
+const { ObjectId } = mongoose.Types; 
+// mongoose.connect('mongodb://localhost:27017/shop', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+//   });
 const customerController = {
     getAllCustomers: async (req, res, next) => {
         // Kiểm tra quyền của tài khoản
         // Xác thực và chuẩn hóa dữ liệu đầu vào
         // Service
         try {
-            const result = await customer.find({});
+            const result = await CustomerModel.find({});
             res.json({ message: "ok", data: result });
         } catch (error) {
             res.status(500).json({ message: "Server error" });
@@ -21,33 +27,40 @@ const customerController = {
             if (!mongoose.Types.ObjectId.isValid(req.params.customerId)) {
                 return res.status(400).json({ message: "Invalid customer ID" });
             }
-            const customers = await customer.findById(req.params.customerId);
+            const customers = await CustomerModel.findById(req.params.customerId);
             res.json({ message: "ok", data: customers });
         } catch (error) {
             res.status(500).json({ message: "Server error" });
         }
 
     },
+    //bai3
     getOrderByCustomer: async (req, res, next) => {
         try {
-            // Kiểm tra customerId hợp lệ
+            // 1. Validate customerId
             if (!mongoose.Types.ObjectId.isValid(req.params.customerId)) {
-                return res.status(400).json({ message: "Invalid customer ID" });
+                return res.status(400).json({ message: "Invalid customer ID format" });
             }
 
-            // Chuyển customerId thành ObjectId nếu cần
-            const customerId = mongoose.Types.ObjectId(req.params.customerId);
+            // 2. Tìm orders (không cần chuyển ObjectId nữa)
+            const orders = await OrderModel.find({ 
+                customerId: req.params.customerId
+            }).populate('productId', 'name price');
 
-            const result = await order.find({
-                customerId: customerId // So sánh ObjectId với ObjectId
-            }).exec();
+            // 3. Trả về kết quả
+            return res.json({
+                message: orders.length ? "Orders retrieved successfully" : "No orders found for this customer",
+                data: orders
+            });
 
-            return res.json({ message: "ok", data: result });
         } catch (error) {
-            console.error(error); // Log lỗi để debug
-            res.status(500).json({ message: "Server error" });
+            console.error("Error in getOrderByCustomer:", error);
+            res.status(500).json({ 
+                message: "Server error",
+                error: error.message 
+            });
         }
-}
+    }
 }
 
 export default customerController
