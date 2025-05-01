@@ -3,10 +3,7 @@ import OrderModel from "../models/order.js"
 import ProductModel from "../models/product.js"
 import mongoose from "mongoose"
 const { ObjectId } = mongoose.Types; 
-// mongoose.connect('mongodb://localhost:27017/shop', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-//   });
+
 const customerController = {
     getAllCustomers: async (req, res, next) => {
         // Kiểm tra quyền của tài khoản
@@ -60,6 +57,11 @@ const customerController = {
                 error: error.message 
             });
         }
+        
+
+        
+
+
     }
 }
 

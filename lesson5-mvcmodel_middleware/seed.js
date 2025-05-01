@@ -40,25 +40,25 @@ const seed = async () => {
     // Tạo products
     const product1 = await products.create({
       name: "Phone",
-      price: 500,
+      price: 100,
       quantity: 10
     });
 
     const product2 = await products.create({
       name: "Gun",
-      price: 500,
+      price: 700,
       quantity: 10
     });
 
     const product3 = await products.create({
       name: "Phong",
-      price: 500,
+      price: 1000,
       quantity: 10
     });
 
     const product4 = await products.create({
       name: "Gun",
-      price: 500,
+      price: 2000,
       quantity: 10
     });
 
@@ -83,8 +83,24 @@ const seed = async () => {
       quantity: 2,
       totalPrice: 1000
     });
-
-
+    await orders.create({
+      customerId: customer3._id,
+      productId: product3._id,
+      quantity: 3,
+      totalPrice: 1500
+    });
+    await orders.create({
+      customerId: customer3._id,
+      productId: product3._id,
+      quantity: 4,
+      totalPrice: 2000
+    });
+    await orders.create({
+      customerId: customer2._id,
+      productId: product2._id,
+      quantity: 1,
+      totalPrice: 500
+    });
     console.log("Database seeded successfully with sample data!");
     console.log("Sample data inserted:");
     console.log("\nCustomers:", await customers.find());
