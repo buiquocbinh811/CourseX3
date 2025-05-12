@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import bcrypt from 'bcrypt';    
-
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
 const registerUser = async (req, res) => {
     try {
@@ -62,7 +63,8 @@ const loginUser = async (req, res) => {
         }
 
         // Find user with password
-        const user = await User.findOne({ email }).select('-password');
+        const user = await User.findOne({ email }).select('+password +salt');
+        console.log("Found user:", user);
         if (!user) {
             return res.status(401).json({
                 success: false,
@@ -79,15 +81,27 @@ const loginUser = async (req, res) => {
                 message: 'Invalid credentials'
             });
         }
+        // randomString 
+        const randomString = crypto
+            .randomBytes(32)
+            .toString('hex')
+            .substring(0, 32); 
 
         //apikey format: mern-userId$-email$-timestamp
-        const timestamp = Date.now();
-        const apiKey = `mern-${user._id}$-${email}$-${timestamp}`;
-
+        const userId = user._id.toString().substring(0, 5); 
+        const emailPart = email.substring(0, 5);
+        const apiKey = `mern-${userId}$-${emailPart}$-${randomString}`;
+        
         res.status(200).json({
             success: true,
             message: 'Login successful',
-            apiKey
+            apiKey,
+            user: {
+                id: user._id,
+                email: user.email,
+                username: user.username
+            }
+            
         });
 
     } catch (error) {
